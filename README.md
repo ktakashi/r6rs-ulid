@@ -96,3 +96,9 @@ implementation of random generator for Sagittarius can be like this
 (define rc4 (secure-random RC4))
 (define (rc4-random-generator bits) (random rc4 (expt 2 bits)))
 ```
+
+Testing
+-------
+
+If your R6RS implementation supports SRFI-64, you can run the
+[`tests/test.scm`](tests/test.scm) file.
