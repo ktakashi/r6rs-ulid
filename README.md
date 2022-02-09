@@ -16,6 +16,13 @@ Or implementation specific libraries for the below helper libraries:
 
 This library is inspired by [ULID for R7RS Scheme](https://github.com/shirok/scheme-ulid)
 
+Tested implementations
+----------------------
+
+- Sagittarius 0.9.8
+- Chez Scheme 9.5.1
+- Racket v8.3 (plt-r6rs)
+
 How to use
 ----------
 
@@ -73,3 +80,19 @@ Equality predicate, ordering predicate and hash function.
 Unlike the R7RS version of ULID library, this library doesn't provide
 ULID comparator.
 
+Consideration
+-------------
+
+It is *not* recommended to use `default-random-generator` even though
+it's passed by default. The default implementation doesn't provide any
+randomization method or secure random. It's better to use implementation
+specific secure random. For example, if it's Sagittarius, then use
+`(crypto)` or `(math random)` to generate secure random. A simple 
+implementation of random generator for Sagittarius can be like this
+
+```scheme
+(import (rnrs)
+        (math))
+(define rc4 (secure-random RC4))
+(define (rc4-random-generator bits) (random rc4 (expt 2 bits)))
+```
