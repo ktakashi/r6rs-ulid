@@ -80,22 +80,17 @@ Equality predicate, ordering predicate and hash function.
 Unlike the R7RS version of ULID library, this library doesn't provide
 ULID comparator.
 
-Consideration
--------------
+Limitations
+-----------
 
-It is *not* recommended to use `default-random-generator` even though
-it's passed by default. The default implementation doesn't provide any
-randomization method or secure random. It's better to use implementation
-specific secure random. For example, if it's Sagittarius, then use
-`(crypto)` or `(math random)` to generate secure random. A simple 
-implementation of random generator for Sagittarius can be like this
+On Chez Scheme, it doesn't provide a good way of initialise a random seed.
+So, the default random generator generates the same value over and over
+again.
 
-```scheme
-(import (rnrs)
-        (math))
-(define rc4 (secure-random RC4))
-(define (rc4-random-generator bits) (random rc4 (expt 2 bits)))
-```
+Default implementation of random generator uses SRFI-27, which doesn't
+require the implementation to provide secure random. Please check your
+implementation's document which psuedo random algorithm is used and 
+replace with an appropreate alternative if needed.
 
 Testing
 -------

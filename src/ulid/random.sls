@@ -34,9 +34,13 @@
     (import (rnrs)
 	    (srfi :27 random-bits))
 
-(define (default-random-generator bits)
-  (define bytes (div bits 8))
-  (define bound (expt 2 (* bytes 8)))
-  (random-integer bound))
+(define default-random-generator
+  (let ((s (make-random-source)))
+    (random-source-randomize! s)
+    (let ((rand (random-source-make-integers s)))
+      (lambda (bits)
+	(define bytes (div bits 8))
+	(define bound (expt 2 (* bytes 8)))
+	(rand bound)))))
 
 )
